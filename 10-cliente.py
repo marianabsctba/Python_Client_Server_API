@@ -1,6 +1,5 @@
 import socket, sys, os, time
 
-name = input('Qual o nome do arquivo com extensao? ')
 
 
 def print_status(bytes, tam):
@@ -14,6 +13,7 @@ def print_status(bytes, tam):
 	
 def main():
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+	name = input('Qual o nome do arquivo com extensao? ')
 	try:
 	    s.connect((socket.gethostname(), 8881))
 	    s.send(name.encode('ascii'))
