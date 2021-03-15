@@ -11,7 +11,7 @@ def print_status(bytes, tam):
     print(text)
 
 	
-def main():
+def client():
 	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 	name = input('Qual o nome do arquivo com extensao? ')
 	try:
@@ -41,4 +41,4 @@ def main():
 	s.close()
 
 if __name__ == '__main__':
-    main()
+    client()
