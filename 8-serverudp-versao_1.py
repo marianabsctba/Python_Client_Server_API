@@ -24,7 +24,7 @@ def server_udp():
     print('Servidor UDP escutando...')
     print('Esperando receber na porta', localPort, '...')
 
-    # ouvido datagrams indefinidos
+    # ouvido datagrams indefinidamente
     while True:
 
         bytesAddressPair = UDPServerSocket.recvfrom(bufferSize)
