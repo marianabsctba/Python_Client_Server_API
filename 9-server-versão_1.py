@@ -1,3 +1,5 @@
+#SERVER UDP
+
 import socket
 import psutil
 
@@ -12,7 +14,7 @@ utilizado = round(disco.used / (1024**3), 2)
 
 def serveru():
     print("Esperando cliente na porta", 9991)
-    while True:
+    while True: # espera indefinidamente
         try:
             (msg, client) = udpServer.recvfrom(1024)
             if msg.decode() == 'y':
