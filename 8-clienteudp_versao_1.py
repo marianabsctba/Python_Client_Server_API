@@ -24,31 +24,3 @@ def client_udp():
 
 if __name__ == '__main__':
     client_udp()
-
- 
-
-print('Servidor UDP escutando...')
-print('Esperando receber na porta', localPort, '...')
-
- 
-
-# Listen for incoming datagrams
-
-while(True):
-
-    bytesAddressPair = UDPServerSocket.recvfrom(bufferSize)
-
-    message = bytesAddressPair[0]
-
-    address = bytesAddressPair[1]
-
-    clientMsg = "Messagem do cliente:{}".format(message)
-    clientIP  = "IP do cliente:{}".format(address)
-    
-    print(clientMsg)
-    print(clientIP)
-   
-
-    # enviando resultado ao cliente
-
-    UDPServerSocket.sendto(bytesToSend, address)
