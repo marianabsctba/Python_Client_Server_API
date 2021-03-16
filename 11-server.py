@@ -38,4 +38,4 @@ def server_program():
     socket_servidor.close()
 
 if __name__ == '__main__':
-    server()
+    server_program()
