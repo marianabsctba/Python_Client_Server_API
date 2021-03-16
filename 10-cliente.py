@@ -1,44 +1,41 @@
-import socket, sys, os, time
+import socket, os
 
 
+def server_program():
+    socket_server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    host = socket.gethostname()
+    port = 8881
 
-def print_status(bytes, tam):
-    kbytes = bytes/1024
-    tam_bytes = tam/1024
-    text = 'Fazendo o download... '
-    text = text + '{:<.2f}'.format(kbytes) + ' KB '
-    text = text + 'de ' + '{:<.2f}'.format(tam_bytes) + ' KB'
-    print(text)
+    socket_server.bind((host, port))
+    socket_server.listen()
 
-	
-def client():
-	s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-	name = input('Qual o nome do arquivo com extensao? ')
-	try:
-	    s.connect((socket.gethostname(), 8881))
-	    s.send(name.encode('ascii'))
-	    msg = s.recv(12)
-	    lenght = int(msg.decode('ascii'))
-	    if lenght >= 0:
-		print('Arquivo encontrado... aguarde...')
-		time.sleep(3)
-		fil = open('download\\'+name, "wb")
-		summ = 0
-		bytes = s.recv(4096)
+    print("Servidor de nome", host, "esperando conexão na porta", port)
 
-		while bytes:
-		    fil.write(bytes)
-		    summ = summ + len(bytes)
-		    os.system('cls')
-		    print_status(summ, lenght)
-		    bytes = s.recv(4096)
-		fil.close()
+    while True:
+        (socket_client,addr) = socket_server.accept() # espera indefinidamente
+        print("Conectado a:", str(addr))
 
+        msg = socket_client.recv(2048)
+        name = msg.decode('ascii')
 
-	except Exception as erro:
-		print(str(erro))
+        if os.path.isfile(name):
+            l = os.stat(name).st_size
+            socket_client.send(str(l).encode('ascii'))
 
-	s.close()
+            fil = open(name, 'rb')
+            bytes = fil.read(4096)
+
+            while bytes:
+                socket_client.send(bytes)
+                bytes = fil.read(4096)
+
+            fil.close()
+        else:
+            print("Arquivo não encontrado...")
+            socket_client.send('-1'.encode('ascii'))
+            socket_client.close()
+
+    socket_servidor.close()
 
 if __name__ == '__main__':
-    client()
+    server_program()
